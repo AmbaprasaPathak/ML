@@ -1,0 +1,40 @@
+# Import necessary libraries
+from sklearn.datasets import load_iris
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+# Load the dataset (you can replace this with your own dataset)
+data = load_iris()
+X, y = data.data, data.target
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Create a Random Forest Classifier with 100 trees
+rf_classifier = RandomForestClassifier(n_estimators=100, random_state=42)
+# Fit the classifier on the training data
+rf_classifier.fit(X_train, y_train)
+# Make predictions on the test data
+y_pred = rf_classifier.predict(X_test)
+# Calculate and print the accuracy of the model
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+print()
+
+# Generate the confusion matrix
+conf_matrix = confusion_matrix(y_test, y_pred)
+# Print the confusion matrix
+print("Confusion Matrix:")
+print(conf_matrix)
+print()
+# Get feature importances
+feature_importances = rf_classifier.feature_importances_
+# Get feature names
+feature_names = data.feature_names
+# Create a bar plot to visualize feature importance
+from matplotlib import pyplot as plt
+plt.figure(figsize=(10, 6))
+plt.barh(range(len(feature_importances)), feature_importances, align="center")
+plt.yticks(range(len(feature_importances)), feature_names)
+plt.xlabel("Feature Importance")
+plt.ylabel("Feature")
+plt.title("Random Forest Feature Importance")
+plt.show()
